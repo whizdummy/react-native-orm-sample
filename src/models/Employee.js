@@ -2,34 +2,38 @@ import { Model } from "react-native-orm";
 
 export class Employee extends Model {
     constructor(props = {}) {
-        super();
+        super({
+            dbInstance:     props.dbInstance || null,
+            tableName:      'Employee',
+            tableFields: {
+                uuid:       'string|primary',
+                first_name: 'string',
+                last_name:  'string',
+                position:   'string'
+            },
+            assignableFields: [
+                'uuid',
+                'first_name',
+                'middle_name',
+                'last_name'
+            ]
+        });
+    }
 
-        this.modelName = 'Employee';
-        
-        // TODO:
-        // Segregate table structure
-        this.fields = {
-            uuid:       'string|primary',
-            first_name: 'string',
-            last_name:  'string',
-            position:   'string'
+    /**
+     * Add additional columns
+     */
+    addColumns = () => {
+        return {
+            version: 2,
+            fields: {
+                middle_name:    'string',
+                age:            'int'
+            }
+            // version: 3,
+            // fields: {
+            //     is_active:    'boolean'
+            // }
         };
-
-        // Required: For MedAlertORM
-        this.tableName(this.modelName)
-            .tableFields(this.fields);
-        // Required: For MedAlertORM
-        this.setDatabaseInstance(props.dbInstance || null);
-        
-        // Assignable fields
-        this.setAssignableFields(Object.keys(this.fields));
-    }
-
-    getModelName = () => {
-        return this.modelName;
-    }
-
-    getModelFields = () => {
-        return this.fields;
     }
 }

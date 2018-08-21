@@ -77,10 +77,10 @@ class Index extends Component {
 
     async componentDidMount() {
         const logs = [].concat(this.state.logs);
-        const employeeModel = new Employee({ dbInstance: this._databaseInstance });
 
         try {
             const initDbRes = await this._fnInitializeDatabase();
+            const employeeModel = new Employee({ dbInstance: this._databaseInstance });
 
             // Create sample data
             const createEmpRes = await this._fnCreateEmployees([
